@@ -43,7 +43,7 @@ function prepareAction {
 	hey ShowImage 'mFSC' of Window 1
 	$targetName &
 	mv tmp/Screenshot_settings ~/config/settings
-	waitfor $targetName
+	delay
 }
 
 ## Actions after screenshots ##
@@ -54,6 +54,13 @@ function endAction {
 	hey ShowImage quit
 }
 
+# Useful function for delaying actions
+function delay {
+	# Please replace 0.5 with a number that suits
+	# your system. Some machines run faster than others
+	# and require more delay.
+	sleep 0.5
+}
 
 ## END OF EDITABLE SECTION ##
 # Show help if a user runs the script without arguments
@@ -80,7 +87,7 @@ fi
 # Run the app.
 prepareAction
 # Delay for few seconds...
-sleep 0.5
+delay
 newImagePath=$imagePath
 # Get format of image
 imageFormat="${newImagePath#*.}"
