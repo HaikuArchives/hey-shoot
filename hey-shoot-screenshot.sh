@@ -35,20 +35,14 @@ screenshotArgs="--window --border"
 ## Preparing the app for a screenshot ##
 # Use `hey` to rearrange windows, open menus, etc...
 function prepareAction {
-	# This opens Screenshot, unchecks the
-	# "capture active window" box, and quits.
-	# This ensures that the first screenshot taken
-	# will capture the entire screen. The second
-	# screenshot will capture just the Screenshot
-	# window with the preview.
-	Screenshot
-	waitfor Screenshot
-	hey Screenshot set Value of View 1 of Window 0 to 0
-	hey Screenshot quit
-	ShowImage workfiles/desktop-template.jpeg &
+	cp ~/config/settings/Screenshot_settings tmp
+	cp workfiles/screenshot.default-settings \
+		~/config/settings/Screenshot_settings
+	ShowImage workfiles/desktop-template.png &
 	waitfor ShowImage
 	hey ShowImage 'mFSC' of Window 1
 	$targetName &
+	mv tmp/Screenshot_settings ~/config/settings
 	waitfor $targetName
 }
 
@@ -82,8 +76,6 @@ if [ -z "$imagePath" ]; then
 	exit
 else
 	echo "Image found in $imagePath"
-	mv $imagePath "$imagePath.orig"
-	echo "Renamed image to $imagePath.orig"
 fi
 # Run the app.
 prepareAction
@@ -97,6 +89,8 @@ if [ $editNeeded -eq 1 ]; then
 	echo "[Warning] This image requires editing"
 	newImagePath="$imagePath_needs_editing"
 fi
+mv $imagePath "$imagePath.orig"
+echo "Renamed image to $imagePath.orig"
 # Take a screenshot!
 screenshot $screenshotArgs -s --format=imageFormat $newImagePath
 # Perform the end action
