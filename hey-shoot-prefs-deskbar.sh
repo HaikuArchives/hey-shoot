@@ -53,7 +53,7 @@ function prepareAction {
 # The target app/pref is closed by default.
 function endAction {
 	# Move the user's backup back into configs
-	mv tmp/settings ~/config/settings/deskbar
+	mv /tmp/settings ~/config/settings/deskbar
 	# Restart Deskbar to reload user configs
 	kill $targetName
 	Deskbar
