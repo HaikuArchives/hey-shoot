@@ -19,7 +19,7 @@
 # category		: The parent folder of the image
 
 targetName="Deskbar"
-imageName="prefs-apps.png"
+imageName="prefs-deskbar.png"
 category="deskbar-images"
 
 
@@ -29,24 +29,35 @@ category="deskbar-images"
 # screenshotArgs	 : Arguments for screenshot CLI command.
 #					 | Silent mode already enabled.
 
-targetDir="/boot/system/preferences"
+#targetDir="/boot/system/preferences"
 editNeeded=0
 screenshotArgs="--window --border"
 
-
 ## Preparing the app for a screenshot ##
-# Remove the ":" if you want to add something here.
 # Use `hey` to rearrange windows, open menus, etc...
-function handleApp {
-	:
+function prepareAction {
+	# Backup user settings to workfiles
+	cp ~/config/settings/deskbar/settings workfiles
+	# Copy default settings to deskbar
+	cp workfiles/deskbar.defaults ~/config/settings/deskbar
+	# Rename from "deskbar.defaults" to "settings"
+	mv ~/config/settings/deskbar/deskbar.defaults \
+		~/config/settings/deskbar/settings
+	# Restart Deskbar!
+	kill $targetName
+	# Open pref window and take screenshot.
+	$targetName &
+	waitfor "w>$targetName preferences"
 }
 
-# A useful function for delaying actions.
-function delay {
-	# I wouldn't recommend anything below 0.5:
-	# You want to give the app enough time to get itself
-	# ready for a screenshot.
-	sleep 0.5
+## Actions after screenshots ##
+# Close the apps opened by this script.
+# The target app/pref is closed by default.
+function endAction {
+	# Move the user's backup back into configs
+	mv workfiles/settings ~/config/settings/deskbar
+	# Restart Deskbar to reload user configs
+	kill $targetName
 }
 
 
@@ -67,21 +78,15 @@ basePath=$1
 imagePath=`find $basePath/images/$category -name "$imageName"`
 # Check if the image file exists.
 if [ -z "$imagePath" ]; then
-	echo "[Error] Could not find image in \"$basePath/images/$category\""
+	echo "[Error] Could not find image in \"$basePath/images/$category/$imageName\""
 	exit
 else
 	echo "Image found in $imagePath"
-	mv $imagePath "$imagePath.orig"
-	echo "Renamed image to $imagePath.orig"
 fi
 # Run the app.
-$targetDir/$targetName &
-# Wait few seconds for the app to load
-delay
-# Handle the app
-handleApp
-# Wait few seconds so a screenshot could be taken AFTER the app loads
-delay
+prepareAction
+# Delay for few seconds...
+sleep 0.5
 newImagePath=$imagePath
 # Get format of image
 imageFormat="${newImagePath#*.}"
@@ -90,10 +95,13 @@ if [ $editNeeded -eq 1 ]; then
 	echo "[Warning] This image requires editing"
 	newImagePath="$imagePath_needs_editing"
 fi
+# Rename original image
+mv $imagePath "$imagePath.orig"
+echo "Renamed original image to $imagePath.orig"
 # Take a screenshot!
 screenshot $screenshotArgs -s --format=imageFormat $newImagePath
-# Quit application
-hey -o $targetName quit
+# Perform the end action
+endAction
 # Output paths of new and old image
 echo
 echo
