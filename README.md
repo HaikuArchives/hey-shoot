@@ -1,5 +1,5 @@
 # hey-shoot
-### A Haiku command line script for automating screenshots for Haiku's UserGuide
+### A Haiku bash script for automating screenshots for Haiku's UserGuide
 
 Created by BachToTheFuture for the 2018 GCI task.
 
