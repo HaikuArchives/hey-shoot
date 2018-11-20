@@ -38,7 +38,7 @@ function prepareAction {
 	cp ~/config/settings/Screenshot_settings /tmp
 	cp workfiles/screenshot.default-settings \
 		~/config/settings/Screenshot_settings
-	ShowImage workfiles/desktop-template.png &
+	ShowImage workfiles/desktop-template.jpg &
 	delay
 	hey ShowImage 'mFSC' of Window 1
 	$targetName &
