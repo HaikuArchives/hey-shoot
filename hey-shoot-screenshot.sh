@@ -39,11 +39,10 @@ function prepareAction {
 	cp workfiles/screenshot.default-settings \
 		~/config/settings/Screenshot_settings
 	ShowImage workfiles/desktop-template.png &
-	waitfor ShowImage
+	delay
 	hey ShowImage 'mFSC' of Window 1
 	$targetName &
 	mv tmp/Screenshot_settings ~/config/settings
-	delay
 }
 
 ## Actions after screenshots ##
