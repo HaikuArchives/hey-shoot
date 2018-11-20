@@ -1,7 +1,7 @@
 # hey-shoot
 ### A Haiku bash script for automating screenshots for Haiku's UserGuide
 
-Created by BachToTheFuture for the 2018 GCI task.
+Created by BachToTheFuture for the 2018 GCI.
 
 #### Usage
 Copy the `hey-shoot-template.sh`, and replace "template" with the name of the image 
