@@ -24,6 +24,7 @@ category="deskbar-images"
 
 
 ## Configuration ##
+# targetDir			 : The directory to your target app/prefs
 # editNeeded		 : Set to 1 if picture needs to be edited
 # screenshotArgs	 : Arguments for screenshot CLI command.
 #					 | Silent mode already enabled.
@@ -36,9 +37,10 @@ screenshotArgs="--window --border"
 # Use `hey` to rearrange windows, open menus, etc...
 function prepareAction {
 	# Backup user settings to workfiles
-	cp ~/config/settings/deskbar/settings workfiles
+	cp ~/config/settings/deskbar/settings tmp
 	# Copy default settings to deskbar & rename to "settings"
-	cp workfiles/deskbar.defaults ~/config/settings/deskbar/settings
+	cp workfiles/deskbar.default-settings \
+		~/config/settings/deskbar/settings
 	# Restart Deskbar!
 	kill $targetName
 	# Open pref window and take screenshot.
@@ -51,11 +53,10 @@ function prepareAction {
 # The target app/pref is closed by default.
 function endAction {
 	# Move the user's backup back into configs
-	mv workfiles/settings ~/config/settings/deskbar
+	mv tmp/settings ~/config/settings/deskbar
 	# Restart Deskbar to reload user configs
 	kill $targetName
 	Deskbar
-	# Hide preferences window when it shows up again.
 	hey Deskbar set Minimize of Window "Deskbar preferences" to "bool(true)"
 }
 

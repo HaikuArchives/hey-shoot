@@ -18,9 +18,9 @@
 #				| ** Extensions required **
 # category		: The parent folder of the image
 
-targetName="Screenshot"
-imageName="screenshot.png"
-category="apps-images"
+targetName=""
+imageName=""
+category=""
 
 
 ## Configuration ##
@@ -67,8 +67,6 @@ if [ -z "$imagePath" ]; then
 	exit
 else
 	echo "Image found in $imagePath"
-	mv $imagePath "$imagePath.orig"
-	echo "Renamed image to $imagePath.orig"
 fi
 # Run the app.
 prepareAction
@@ -82,6 +80,9 @@ if [ $editNeeded -eq 1 ]; then
 	echo "[Warning] This image requires editing"
 	newImagePath="$imagePath_needs_editing"
 fi
+# Rename the original file.
+mv $imagePath "$imagePath.orig"
+echo "Renamed image to $imagePath.orig"
 # Take a screenshot!
 screenshot $screenshotArgs -s --format=imageFormat $newImagePath
 # Perform the end action
