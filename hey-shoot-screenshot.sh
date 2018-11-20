@@ -35,14 +35,14 @@ screenshotArgs="--window --border"
 ## Preparing the app for a screenshot ##
 # Use `hey` to rearrange windows, open menus, etc...
 function prepareAction {
-	cp ~/config/settings/Screenshot_settings tmp
+	cp ~/config/settings/Screenshot_settings /tmp
 	cp workfiles/screenshot.default-settings \
 		~/config/settings/Screenshot_settings
 	ShowImage workfiles/desktop-template.png &
 	delay
 	hey ShowImage 'mFSC' of Window 1
 	$targetName &
-	mv tmp/Screenshot_settings ~/config/settings
+	mv /tmp/Screenshot_settings ~/config/settings
 }
 
 ## Actions after screenshots ##

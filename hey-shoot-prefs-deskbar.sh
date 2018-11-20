@@ -37,7 +37,7 @@ screenshotArgs="--window --border"
 # Use `hey` to rearrange windows, open menus, etc...
 function prepareAction {
 	# Backup user settings to workfiles
-	cp ~/config/settings/deskbar/settings tmp
+	cp ~/config/settings/deskbar/settings /tmp
 	# Copy default settings to deskbar & rename to "settings"
 	cp workfiles/deskbar.default-settings \
 		~/config/settings/deskbar/settings
