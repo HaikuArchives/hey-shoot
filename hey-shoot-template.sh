@@ -18,18 +18,16 @@
 #				| ** Extensions required **
 # category		: The parent folder of the image
 
-targetName=""
-imageName=""
-category=""
+targetName="Screenshot"
+imageName="screenshot.png"
+category="apps-images"
 
 
 ## Configuration ##
-# targetDir			 : The directory to your target app/prefs
 # editNeeded		 : Set to 1 if picture needs to be edited
 # screenshotArgs	 : Arguments for screenshot CLI command.
 #					 | Silent mode already enabled.
 
-targetDir="/boot/system/apps"
 editNeeded=0
 screenshotArgs="--window --border"
 
@@ -37,13 +35,12 @@ screenshotArgs="--window --border"
 ## Preparing the app for a screenshot ##
 # Use `hey` to rearrange windows, open menus, etc...
 function prepareAction {
-	$targetDir/$targetName &
+	$targetName &
 	waitfor $targetName
 }
 
 ## Actions after screenshots ##
 # Close the apps opened by this script.
-# The target app/pref is closed by default.
 function endAction {
 	hey $targetName quit
 }

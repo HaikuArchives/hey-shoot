@@ -24,12 +24,10 @@ category="apps-images"
 
 
 ## Configuration ##
-# targetDir			 : The directory to your target app/prefs
 # editNeeded		 : Set to 1 if picture needs to be edited
 # screenshotArgs	 : Arguments for screenshot CLI command.
 #					 | Silent mode already enabled.
 
-targetDir="/boot/system/apps"
 editNeeded=0
 screenshotArgs="--window --border"
 
@@ -37,10 +35,20 @@ screenshotArgs="--window --border"
 ## Preparing the app for a screenshot ##
 # Use `hey` to rearrange windows, open menus, etc...
 function prepareAction {
-	$targetDir/ShowImage workfiles/desktop-template.png &
+	# This opens Screenshot, unchecks the
+	# "capture active window" box, and quits.
+	# This ensures that the first screenshot taken
+	# will capture the entire screen. The second
+	# screenshot will capture just the Screenshot
+	# window with the preview.
+	Screenshot
+	waitfor Screenshot
+	hey Screenshot set Value of View 1 of Window 0 to 0
+	hey Screenshot quit
+	ShowImage workfiles/desktop-template.jpeg &
 	waitfor ShowImage
 	hey ShowImage 'mFSC' of Window 1
-	$targetDir/$targetName &
+	$targetName &
 	waitfor $targetName
 }
 
