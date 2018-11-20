@@ -50,7 +50,6 @@ function prepareAction {
 
 ## Actions after screenshots ##
 # Close the apps opened by this script.
-# The target app/pref is closed by default.
 function endAction {
 	# Move the user's backup back into configs
 	mv /tmp/settings ~/config/settings/deskbar
