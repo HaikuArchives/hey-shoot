@@ -4,7 +4,7 @@
 `hey-shoot` is a bash script for automating the retake of the screenshots
 shown in Haiku's UserGuide.
 
-`hey-shoot` script is written for each app with a picture in the UserGuide.
+A `hey-shoot` script is written for each app with a picture in the UserGuide.
 The script opens the app and will rearrange and perform actions on the app
 based on the user's preferences. The script will then take a screenshot of the app.
 This screenshot replaces the corresponding image of the app in UserGuide's `image` directory.
