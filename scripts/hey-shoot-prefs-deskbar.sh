@@ -48,10 +48,10 @@ function prepareAction {
 		~/config/settings/deskbar/settings
 
 	# Restart Deskbar!
-	kill $targetName
+	kill "$targetName"
 
 	# Open pref window and take screenshot.
-	$targetName &
+	"$targetName" &
 	waitfor "w>$targetName preferences"
 }
 
@@ -63,7 +63,7 @@ function endAction {
 	mv "$tempDir/settings" ~/config/settings/deskbar
 
 	# Restart Deskbar to reload user configs
-	kill $targetName
+	kill "$targetName"
 	Deskbar
 	hey Deskbar set Minimize of Window "Deskbar preferences" to "bool(true)"
 }
@@ -89,7 +89,7 @@ if [ -z $1 ]; then
 fi
 
 # Get arguments if there are any
-basePath=$1
+basePath="$1"
 
 # Go to userguide directory and find the image
 imagePath=`find $basePath/images/$imageSubPath -name "$imageName"`

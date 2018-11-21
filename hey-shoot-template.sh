@@ -39,13 +39,13 @@ tempDir="/tmp"
 ## Preparing the app for a screenshot ##
 # Use `hey` to rearrange windows, open menus, etc...
 function prepareAction {
-	$targetName &
+	"$targetName" &
 }
 
 ## Actions after screenshots ##
 # Close the apps opened by this script.
 function endAction {
-	hey $targetName quit
+	hey "$targetName" quit
 }
 
 # Useful function for delaying actions
@@ -69,7 +69,7 @@ if [ -z $1 ]; then
 fi
 
 # Get arguments if there are any
-basePath=$1
+basePath="$1"
 
 # Go to userguide directory and find the image
 imagePath=`find $basePath/images/$imageSubPath -name "$imageName"`
@@ -89,7 +89,7 @@ prepareAction
 delay
 
 # Get the new image path
-newImagePath=$imagePath
+newImagePath="$imagePath"
 
 # Get format of image
 imageFormat="${newImagePath#*.}"
@@ -101,18 +101,18 @@ if [ $editNeeded -eq 1 ]; then
 fi
 
 # Rename the original image
-mv $imagePath "$imagePath.orig"
+mv "$imagePath" "$imagePath.orig"
 echo "Renamed image to $imagePath.orig"
 
 # Take a screenshot!
-screenshot $screenshotArgs -s --format=imageFormat $newImagePath
+screenshot $screenshotArgs -s --format=imageFormat "$newImagePath"
 
 # Perform the end action
 endAction
 
 # Output paths of new and old image
 echo
-echo "Original: " $imagePath.orig
-echo "New     : " $newImagePath
+echo "Original: $imagePath.orig"
+echo "New     : $newImagePath"
 echo
 exit

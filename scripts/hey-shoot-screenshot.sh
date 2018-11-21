@@ -45,7 +45,7 @@ function prepareAction {
 	ShowImage "$workfileDir/desktop-template.jpg" &
 	delay
 	hey ShowImage 'mFSC' of Window 1
-	$targetName &
+	"$targetName" &
 	mv "$tempDir/Screenshot_settings" ~/config/settings
 }
 
@@ -53,7 +53,7 @@ function prepareAction {
 # Close the apps opened by this script.
 # The target app/pref is closed by default.
 function endAction {
-	hey $targetName quit
+	hey "$targetName" quit
 	hey ShowImage quit
 }
 
@@ -78,7 +78,7 @@ if [ -z $1 ]; then
 fi
 
 # Get arguments if there are any
-basePath=$1
+basePath="$1"
 
 # Go to userguide directory and find the image
 imagePath=`find $basePath/images/$imageSubPath -name "$imageName"`
