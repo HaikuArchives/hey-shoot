@@ -80,7 +80,7 @@ function delay {
 ## END OF EDITABLE SECTION ##
 
 # Show help if a user runs the script without arguments
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
 	echo
 	echo "Usage  : hey-shoot-[imagename].sh [path-to-userguide]"
 	echo "Example: hey-shoot-activitymonitor.sh userguide/en"
@@ -92,7 +92,7 @@ fi
 basePath="$1"
 
 # Go to userguide directory and find the image
-imagePath=`find $basePath/images/$imageSubPath -name "$imageName"`
+imagePath=$(find "$basePath/images/$imageSubPath" -name "$imageName")
 
 # Check if the image file exists.
 if [ -z "$imagePath" ]; then
@@ -125,7 +125,7 @@ mv "$imagePath" "$imagePath.orig"
 echo "Renamed image to $imagePath.orig"
 
 # Take a screenshot!
-screenshot $screenshotArgs -s --format=imageFormat "$newImagePath"
+screenshot $screenshotArgs -s --format=$imageFormat "$newImagePath"
 
 # Perform the end action
 endAction
