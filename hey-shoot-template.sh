@@ -60,7 +60,7 @@ function delay {
 ## END OF EDITABLE SECTION ##
 
 # Show help if a user runs the script without arguments
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
 	echo
 	echo "Usage  : hey-shoot-[imagename].sh [path-to-userguide]"
 	echo "Example: hey-shoot-activitymonitor.sh userguide/en"
