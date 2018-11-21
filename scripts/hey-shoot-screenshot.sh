@@ -18,9 +18,9 @@
 #				| ** Extensions required **
 # imageSubPath	: The parent folder of the image
 
-targetName="Screenshot"
-imageName="screenshot.png"
-imageSubPath="apps-images"
+targetName="Deskbar"
+imageName="prefs-deskbar.png"
+imageSubPath="deskbar-images"
 
 
 ## Configuration ##
@@ -39,22 +39,33 @@ tempDir="/tmp"
 ## Preparing the app for a screenshot ##
 # Use `hey` to rearrange windows, open menus, etc...
 function prepareAction {
-	cp ~/config/settings/Screenshot_settings "$tempDir"
-	cp "$workfileDir/screenshot.default-settings" \
-		~/config/settings/Screenshot_settings
-	ShowImage "$workfileDir/desktop-template.jpg" &
-	delay
-	hey ShowImage 'mFSC' of Window 1
+
+	# Backup user settings to workfiles
+	cp ~/config/settings/deskbar/settings "$tempDir"
+
+	# Copy default settings to deskbar & rename to "settings"
+	cp "$workfileDir/deskbar.default-settings" \
+		~/config/settings/deskbar/settings
+
+	# Restart Deskbar!
+	kill "$targetName"
+
+	# Open pref window and take screenshot.
 	"$targetName" &
-	mv "$tempDir/Screenshot_settings" ~/config/settings
+	waitfor "w>$targetName preferences"
 }
 
 ## Actions after screenshots ##
 # Close the apps opened by this script.
-# The target app/pref is closed by default.
 function endAction {
-	hey "$targetName" quit
-	hey ShowImage quit
+
+	# Move the user's backup back into configs
+	mv "$tempDir/settings" ~/config/settings/deskbar
+
+	# Restart Deskbar to reload user configs
+	kill "$targetName"
+	Deskbar
+	hey Deskbar set Minimize of Window "Deskbar preferences" to "bool(true)"
 }
 
 # Useful function for delaying actions
@@ -69,7 +80,7 @@ function delay {
 ## END OF EDITABLE SECTION ##
 
 # Show help if a user runs the script without arguments
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
 	echo
 	echo "Usage  : hey-shoot-[imagename].sh [path-to-userguide]"
 	echo "Example: hey-shoot-activitymonitor.sh userguide/en"
@@ -81,7 +92,7 @@ fi
 basePath="$1"
 
 # Go to userguide directory and find the image
-imagePath=`find $basePath/images/$imageSubPath -name "$imageName"`
+imagePath=$(find "$basePath/images/$imageSubPath" -name "$imageName")
 
 # Check if the image file exists.
 if [ -z "$imagePath" ]; then
@@ -114,7 +125,7 @@ mv "$imagePath" "$imagePath.orig"
 echo "Renamed image to $imagePath.orig"
 
 # Take a screenshot!
-screenshot $screenshotArgs -s --format=imageFormat "$newImagePath"
+screenshot $screenshotArgs -s --format=$imageFormat "$newImagePath"
 
 # Perform the end action
 endAction
