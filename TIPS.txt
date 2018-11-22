@@ -25,3 +25,8 @@ Helpful Tips for hey-shoot Scripts
    You are welcome to look at the example scripts in the "scripts" directory :)
    
 7. Add your scripts to the "scripts" directory.
+
+8. I recommend playing around with the "delay" function.
+   Some systems run faster than others, so you may want to change 0.5 to something bigger.
+   The delay makes sure that Screenshot doesn't take a screenshot before the app loads.
+   
