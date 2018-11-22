@@ -21,3 +21,7 @@ Helpful Tips for hey-shoot Scripts
    copy the default settings to the settings directory, take a screenshot of the app,
    and restore the user's settings into the settings directory.
    Please also remove the user settings from the "tmp" directory.
+   
+   You are welcome to look at the example scripts in the "scripts" directory :)
+   
+7. Add your scripts to the "scripts" directory.
