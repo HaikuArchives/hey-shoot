@@ -6,7 +6,7 @@
 ## for GCI 2018
 
 ## A template script for an automated screenshot taking
-## for Haiku's User Guide. Your welcome!
+## for Haiku's User Guide.
 
 ## Please rename this file to "hey-shoot-[imagename].sh".
 ## Usage		: hey-shoot-[imagename].sh [path-to-userguide]
