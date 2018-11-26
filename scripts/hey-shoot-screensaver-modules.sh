@@ -18,9 +18,9 @@
 #				| ** Extensions required **
 # imageSubPath	: The parent folder of the image
 
-targetName=""
-imageName=""
-imageSubPath=""
+targetName="ScreenSaver"
+imageName="screensaver-modules.png"
+imageSubPath="prefs-images"
 
 
 ## Configuration ##
@@ -39,13 +39,18 @@ tempDir="/tmp"
 ## Preparing the app for a screenshot ##
 # Use `hey` to rearrange windows, open menus, etc...
 function prepareAction {
+	cp ~/config/settings/ScreenSaver_settings "$tempDir"
+	cp "$workfileDir/screensaver-modules.default-settings" \
+		~/config/settings/ScreenSaver_settings
 	"$targetName" &
+	sleep 5
 }
 
 ## Actions after screenshots ##
 # Close the apps opened by this script.
 function endAction {
-	hey -o "$targetName" quit
+	mv "$tempDir/ScreenSaver_settings" ~/config/settings
+	kill "$targetName"
 }
 
 # Useful function for delaying actions

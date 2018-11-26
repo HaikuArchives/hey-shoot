@@ -18,9 +18,9 @@
 #				| ** Extensions required **
 # imageSubPath	: The parent folder of the image
 
-targetName=""
-imageName=""
-imageSubPath=""
+targetName="Terminal"
+imageName="terminal-settings.png"
+imageSubPath="apps-images"
 
 
 ## Configuration ##
@@ -39,13 +39,33 @@ tempDir="/tmp"
 ## Preparing the app for a screenshot ##
 # Use `hey` to rearrange windows, open menus, etc...
 function prepareAction {
-	"$targetName" &
+	# Backup user settings to workfiles
+	cp ~/config/settings/Terminal/Default "$tempDir"
+	cp ~/config/settings/Terminal/Windows "$tempDir"
+
+	# Copy default settings & rename
+	cp "$workfileDir/terminal.default-settings" \
+		~/config/settings/Terminal/Default
+	# Make a new terminal window with a specified name for
+	# making life easier.
+	Terminal -t Test &
+	waitfor "w>Test"
+
+	# The copied Defaults file should let the "Test" terminal
+	# have default settings.
+	# Open pref window and take screenshot.
+	hey -o "$targetName" 'MPre' Window "Test"
+	waitfor "w>$targetName settings"
 }
 
 ## Actions after screenshots ##
 # Close the apps opened by this script.
 function endAction {
-	hey -o "$targetName" quit
+	# Move the user's backup back into configs
+	mv "$tempDir/Default" ~/config/settings/Terminal
+	mv "$tempDir/Windows" ~/config/settings/Terminal
+	# Restart Terminal to reload user configs
+	hey -o Terminal quit Window "Test"
 }
 
 # Useful function for delaying actions
@@ -93,7 +113,7 @@ newImagePath="$imagePath"
 
 # Get format of image
 imageFormat="${imageName#*.}"
-
+echo $imageFormat
 # Check if edit is needed
 if [ $editNeeded -eq 1 ]; then
 	echo "[Warning] This image requires editing"

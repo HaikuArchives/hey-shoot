@@ -18,9 +18,9 @@
 #				| ** Extensions required **
 # imageSubPath	: The parent folder of the image
 
-targetName=""
-imageName=""
-imageSubPath=""
+targetName="DiskProbe"
+imageName="diskprobe.png"
+imageSubPath="apps-images"
 
 
 ## Configuration ##
@@ -39,7 +39,9 @@ tempDir="/tmp"
 ## Preparing the app for a screenshot ##
 # Use `hey` to rearrange windows, open menus, etc...
 function prepareAction {
-	"$targetName" &
+	"$targetName" /boot/system/apps/AboutSystem &
+	waitfor "$targetName"
+	hey -o "$targetName" set Frame of Window 1 to "BRect(200,100,800,100)"
 }
 
 ## Actions after screenshots ##
@@ -93,7 +95,7 @@ newImagePath="$imagePath"
 
 # Get format of image
 imageFormat="${imageName#*.}"
-
+echo $imageFormat
 # Check if edit is needed
 if [ $editNeeded -eq 1 ]; then
 	echo "[Warning] This image requires editing"
@@ -107,12 +109,12 @@ echo "Renamed image to $imagePath.orig"
 # Take a screenshot!
 screenshot $screenshotArgs -s --format=$imageFormat "$newImagePath"
 
+# Perform the end action
+endAction
+
 # Output paths of new and old image
 echo
 echo "Original: $imagePath.orig"
 echo "New     : $newImagePath"
 echo
-
-# Perform the end action
-endAction
 exit
