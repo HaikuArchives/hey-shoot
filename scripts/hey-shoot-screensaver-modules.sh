@@ -43,7 +43,7 @@ function prepareAction {
 	cp "$workfileDir/screensaver-modules.default-settings" \
 		~/config/settings/ScreenSaver_settings
 	"$targetName" &
-	sleep 5
+	sleep 2.5
 }
 
 ## Actions after screenshots ##
