@@ -39,8 +39,10 @@ tempDir="/tmp"
 ## Preparing the app for a screenshot ##
 # Use `hey` to rearrange windows, open menus, etc...
 function prepareAction {
+	# Inspect AboutSystem like the original picture
 	"$targetName" /boot/system/apps/AboutSystem &
 	waitfor "$targetName"
+	# Set the window size to a size much like the original picture.
 	hey -o "$targetName" set Frame of Window 1 to "BRect(200,100,800,100)"
 }
 
