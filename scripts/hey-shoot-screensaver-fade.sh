@@ -1,16 +1,7 @@
 #!/bin/bash
 
-## Hey-shoot Template ##
-
 ## Developed by BachToTheFuture
 ## for GCI 2018
-
-## A template script for an automated screenshot taking
-## for Haiku's User Guide.
-
-## Please rename this file to "hey-shoot-[imagename].sh".
-## Usage		: hey-shoot-[imagename].sh [path-to-userguide]
-## Example usage: hey-shoot-activitymonitor.sh userguide/en
 
 ## Basic information ##
 # targetName	: This is the name of the app you are going to open
@@ -18,9 +9,9 @@
 #				| ** Extensions required **
 # imageSubPath	: The parent folder of the image
 
-targetName=""
-imageName=""
-imageSubPath=""
+targetName="ScreenSaver"
+imageName="screensaver-fade.png"
+imageSubPath="prefs-images"
 
 
 ## Configuration ##
@@ -39,13 +30,17 @@ tempDir="/tmp"
 ## Preparing the app for a screenshot ##
 # Use `hey` to rearrange windows, open menus, etc...
 function prepareAction {
+	cp ~/config/settings/ScreenSaver_settings "$tempDir"
+	cp "$workfileDir/screensaver-fade.default-settings" \
+		~/config/settings/ScreenSaver_settings
 	"$targetName" &
 }
 
 ## Actions after screenshots ##
 # Close the apps opened by this script.
 function endAction {
-	hey -o "$targetName" quit
+	mv "$tempDir/ScreenSaver_settings" ~/config/settings
+	kill "$targetName"
 }
 
 # Useful function for delaying actions

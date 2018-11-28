@@ -1,16 +1,7 @@
 #!/bin/bash
 
-## Hey-shoot Template ##
-
 ## Developed by BachToTheFuture
 ## for GCI 2018
-
-## A template script for an automated screenshot taking
-## for Haiku's User Guide.
-
-## Please rename this file to "hey-shoot-[imagename].sh".
-## Usage		: hey-shoot-[imagename].sh [path-to-userguide]
-## Example usage: hey-shoot-activitymonitor.sh userguide/en
 
 ## Basic information ##
 # targetName	: This is the name of the app you are going to open
@@ -18,9 +9,9 @@
 #				| ** Extensions required **
 # imageSubPath	: The parent folder of the image
 
-targetName=""
-imageName=""
-imageSubPath=""
+targetName="DiskProbe"
+imageName="diskprobe.png"
+imageSubPath="apps-images"
 
 
 ## Configuration ##
@@ -39,7 +30,11 @@ tempDir="/tmp"
 ## Preparing the app for a screenshot ##
 # Use `hey` to rearrange windows, open menus, etc...
 function prepareAction {
-	"$targetName" &
+	# Inspect AboutSystem like the original picture
+	"$targetName" /boot/system/apps/AboutSystem &
+	waitfor "$targetName"
+	# Set the window size to a size much like the original picture.
+	hey -o "$targetName" set Frame of Window 1 to "BRect(200,100,800,100)"
 }
 
 ## Actions after screenshots ##
@@ -93,7 +88,7 @@ newImagePath="$imagePath"
 
 # Get format of image
 imageFormat="${imageName#*.}"
-
+echo $imageFormat
 # Check if edit is needed
 if [ $editNeeded -eq 1 ]; then
 	echo "[Warning] This image requires editing"
@@ -107,12 +102,12 @@ echo "Renamed image to $imagePath.orig"
 # Take a screenshot!
 screenshot $screenshotArgs -s --format=$imageFormat "$newImagePath"
 
+# Perform the end action
+endAction
+
 # Output paths of new and old image
 echo
 echo "Original: $imagePath.orig"
 echo "New     : $newImagePath"
 echo
-
-# Perform the end action
-endAction
 exit
