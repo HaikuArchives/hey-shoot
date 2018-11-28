@@ -1,16 +1,7 @@
 #!/bin/bash
 
-## Hey-shoot Template ##
-
 ## Developed by BachToTheFuture
 ## for GCI 2018
-
-## A template script for an automated screenshot taking
-## for Haiku's User Guide.
-
-## Please rename this file to "hey-shoot-[imagename].sh".
-## Usage		: hey-shoot-[imagename].sh [path-to-userguide]
-## Example usage: hey-shoot-activitymonitor.sh userguide/en
 
 ## Basic information ##
 # targetName	: This is the name of the app you are going to open
